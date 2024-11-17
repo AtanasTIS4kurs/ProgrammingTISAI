@@ -1,33 +1,26 @@
 using Microsoft.AspNetCore.Mvc;
-
+using MovieStoreTISAI.BL.Interfaces;
+using MovieStoreTISAI.Models.DTO;
 namespace MovieStoreTISAI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class MoviesController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
 
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IMoviesService _movieService;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public MoviesController(IMoviesService movieService)
         {
-            _logger = logger;
+            _movieService = movieService;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        [HttpGet("GetALL")]
+        public IEnumerable<Movie> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            return _movieService.GetAll();
+
         }
     }
 }
+

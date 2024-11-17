@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MovieStoreTISAI.DL\MovieStoreTISAI.DL.csproj" />
     <ProjectReference Include="..\MovieStoreTISAI.Models\MovieStoreTISAI.Models.csproj" />
   </ItemGroup>
 
