@@ -2,7 +2,7 @@
 using MovieStoreTISAI.BL.Interfaces;
 using MovieStoreTISAI.BL.Services;
 
-namespace MovieStoreC.BL
+namespace MovieStoreTISAI.BL
 {
     public static class DependencyInjection
     {

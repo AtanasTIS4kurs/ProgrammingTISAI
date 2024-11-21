@@ -2,7 +2,7 @@
 using MovieStoreTISAI.DL.Interfaces;
 using MovieStoreTISAI.DL.Repositories;
 
-namespace MovieStoreC.DL
+namespace MovieStoreTISAI.DL
 {
 
     public static class DependencyInjection

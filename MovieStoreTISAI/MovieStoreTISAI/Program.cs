@@ -1,7 +1,8 @@
+using Mapster;
 using MovieStoreTISAI.BL;
 using MovieStoreTISAI.DL;
 
-namespace MovieStoreC
+namespace MovieStoreTISAI
 {
     public class Program
     {
@@ -12,7 +13,7 @@ namespace MovieStoreC
             // Add services to the container.
             builder.Services.RegisterRepositories();
             builder.Services.RegisterServices();
-
+            builder.Services.AddMapster();
             builder.Services.AddControllers();
             builder.Services.AddSwaggerGen();
 

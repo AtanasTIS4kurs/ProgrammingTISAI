@@ -7,7 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MovieStoreTISAI.Models\MovieStoreTISAI.Models.csproj" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MovieStoreTISAI.DL\MovieStoreTISAI.DL.csproj" />
   </ItemGroup>
 
 </Project>
