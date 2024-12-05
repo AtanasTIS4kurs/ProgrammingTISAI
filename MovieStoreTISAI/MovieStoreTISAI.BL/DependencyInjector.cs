@@ -8,7 +8,9 @@ namespace MovieStoreTISAI.BL
     {
         public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
-            return services.AddSingleton<IMoviesService, MoviesService>();
+            return services
+                .AddSingleton<IMoviesService, MoviesService>()
+                .AddSingleton<IBusinessService, BusinessService>();
         }
     }
 }

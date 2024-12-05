@@ -7,14 +7,21 @@ namespace MovieStoreTISAI.DL.Repositories
 {
     internal class MovieStaticDataRepository : IMovieRepository
     {
-        //public void Add()
-        //{
-
-        //}
+        public void Add()
+        {
+            new Movie()
+            {
+                Id = 4,
+                Title = "Test",
+                Year = 2020,
+                Actors = new List<int>() { 2 },
+            };
+        }
         public List<Movie> GetAll()
         {
             return StaticDb.Movies;
         }
+        
         public Movie? GetByID(int id)
         {
             if (id <= 0) return null;

@@ -18,11 +18,11 @@ namespace MovieStoreTISAI.Controllers
             _mapper = mapper;
         }
         [HttpGet("Add")]
-        public void Add([FromBody] AddMovieRequest movie) 
-        {
-            var movieDto = _mapper.Map<Movie>(movie);
-            _movieService.Add(movieDto);
-        }
+        //public void Add([FromBody] AddMovieRequest movie) 
+        //{
+        //    var movieDto = _mapper.Map<Movie>(movie);
+        //    _movieService.Add(movieDto);
+        //}
 
         [HttpGet("GetALL")]
         public IEnumerable<Movie> Get()

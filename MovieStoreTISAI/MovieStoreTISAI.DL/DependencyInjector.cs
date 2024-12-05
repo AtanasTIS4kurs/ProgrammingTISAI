@@ -9,7 +9,9 @@ namespace MovieStoreTISAI.DL
     {
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
-            return services.AddSingleton<IMovieRepository, MovieStaticDataRepository>();
+            return services
+                .AddSingleton<IMovieRepository, MovieStaticDataRepository>()
+                .AddSingleton<IActorRepository, ActorStaticDataRepository>();
         }
     }
 }
