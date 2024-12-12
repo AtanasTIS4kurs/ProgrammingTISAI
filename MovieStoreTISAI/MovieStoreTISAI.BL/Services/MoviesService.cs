@@ -14,16 +14,16 @@ namespace MovieStoreTISAI.BL.Services
         }
 
 
-        //public void Add() {
-        //    _movieRepository.Add();
-
-        //}
-        public void Delete(int id)
+        public void Add(Movie movie)
+        {
+            //_movieRepository.Add(movie);
+        }
+        public void Delete(string id)
         {
             _movieRepository.Delete(id);
         }
 
-        public Movie? GetByID(int id)
+        public Movie? GetByID(string id)
         {
             return _movieRepository.GetByID(id);
         }

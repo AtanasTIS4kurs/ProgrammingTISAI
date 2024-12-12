@@ -4,7 +4,7 @@ namespace MovieStoreTISAI.DL.Interfaces
     public interface IMovieRepository
     {
         List<Movie> GetAll();
-        Movie? GetByID(int id);
-        void Delete(int id);
+        Movie? GetByID(string id);
+        void Delete(string id);
     }
 }

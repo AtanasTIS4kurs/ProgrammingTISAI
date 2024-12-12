@@ -7,8 +7,10 @@ namespace MovieStoreTISAI.BL.Interfaces
         
         List<Movie> GetAll();
 
-        Movie? GetByID(int id);
+        Movie? GetByID(string id);
 
-        void Delete(int id);
+        void Delete(string id);
+
+        void Add(Movie movie);
     }
 }

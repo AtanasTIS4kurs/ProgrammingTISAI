@@ -15,11 +15,11 @@ namespace MovieStoreTISAI.Controllers
         {
             _blService = movieService;
         }
-        [HttpGet("GetALLDetiledMovies")]
+        [HttpGet("GetALLDetailedMovies")]
         public IActionResult GetAllDetailedMovie()
         {
             var result = _blService.GetAllMovies();
-            if (result != null && result.Count < 0)
+            if (result != null && result.Count > 0)
             {
                 return Ok(result);
             }

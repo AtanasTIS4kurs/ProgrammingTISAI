@@ -31,6 +31,8 @@ namespace MovieStoreTISAI.BL.Services
                     Id = movie.Id,
                     Title = movie.Title,
                     Year = movie.Year,
+                    Actors = new List<Actor>()
+
                 };
                 foreach (var actorId in movie.Actors)
                 {

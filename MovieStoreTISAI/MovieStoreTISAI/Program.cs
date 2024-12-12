@@ -1,6 +1,11 @@
 using Mapster;
+using FluentValidation;
 using MovieStoreTISAI.BL;
 using MovieStoreTISAI.DL;
+using MovieStoreTISAI.Models.Requests;
+using MovieStoreTISAI.Validator;
+using FluentValidation.AspNetCore;
+using MovieStoreTISAI.Models.Configuration;
 
 namespace MovieStoreTISAI
 {
@@ -9,13 +14,17 @@ namespace MovieStoreTISAI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            //Add Configuration
+            builder.Services.Configure<MongoDbConfiguration>(
+                builder.Configuration.GetSection(nameof(MongoDbConfiguration)));
             // Add services to the container.
             builder.Services.RegisterRepositories();
             builder.Services.RegisterServices();
             builder.Services.AddMapster();
             builder.Services.AddControllers();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddValidatorsFromAssemblyContaining<MovieValidator>();
+            builder.Services.AddFluentValidationAutoValidation();
 
             var app = builder.Build();
 

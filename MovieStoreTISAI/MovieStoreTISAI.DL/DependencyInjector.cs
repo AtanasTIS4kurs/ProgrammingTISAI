@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MovieStoreTISAI.DL.Interfaces;
 using MovieStoreTISAI.DL.Repositories;
+using MovieStoreTISAI.DL.Repositories.MongoDb;
 
 namespace MovieStoreTISAI.DL
 {
@@ -10,7 +11,7 @@ namespace MovieStoreTISAI.DL
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
             return services
-                .AddSingleton<IMovieRepository, MovieStaticDataRepository>()
+                .AddSingleton<IMovieRepository, MoviesMongoRepository>()
                 .AddSingleton<IActorRepository, ActorStaticDataRepository>();
         }
     }

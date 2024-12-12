@@ -17,24 +17,35 @@ namespace MovieStoreTISAI.Controllers
             _movieService = movieService;
             _mapper = mapper;
         }
-        [HttpGet("Add")]
-        //public void Add([FromBody] AddMovieRequest movie) 
-        //{
-        //    var movieDto = _mapper.Map<Movie>(movie);
-        //    _movieService.Add(movieDto);
-        //}
-
         [HttpGet("GetALL")]
-        public IEnumerable<Movie> Get()
-        {
-            return _movieService.GetAll();
 
+        public IActionResult GetAll()
+        {
+            var result = _movieService.GetAll();
+
+            if (result != null && result.Count > 0)
+            {
+                return Ok(result);
+            }
+
+            return NotFound();
         }
+        
+        
         //[ProducesResponseType(200)]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
         //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPost("Add")]
+        public IActionResult Add([FromBody] AddMovieRequest movie)
+        {
+            var movieDto = _mapper.Map<Movie>(movie);
+
+            _movieService.Add(movieDto);
+
+            return Ok();
+        }
         [HttpGet("GetByID")]
-        public Movie? GetByID(int id)
+        public Movie? GetByID(string id)
         {
             //if (id > 0)
             //{
@@ -44,7 +55,7 @@ namespace MovieStoreTISAI.Controllers
 
         }
         [HttpGet("Delete")]
-        public void Delete(int id)
+        public void Delete(string id)
         {
              _movieService.Delete(id);
 

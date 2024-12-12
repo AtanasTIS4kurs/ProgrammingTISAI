@@ -5,7 +5,7 @@ namespace MovieStoreTISAI.Models.Responses
     public class MovieFullDetailsResponse
     {
        
-            public int Id { get; set; }
+            public string Id { get; set; }
 
             public string Title { get; set; } = string.Empty;
 
