@@ -16,7 +16,12 @@ namespace MovieStoreTISAI.BL.Services
 
         public void Add(Movie movie)
         {
-            //_movieRepository.Add(movie);
+            if (movie == null|| movie.Actors == null) return;
+            foreach (var actor in movie.Actors)
+            {
+                if (Guid.TryParse(actor, out _) return;
+            }
+            //  _movieRepository.Add(movie);
         }
         public void Delete(string id)
         {

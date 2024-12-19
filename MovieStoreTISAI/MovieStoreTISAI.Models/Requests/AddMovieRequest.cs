@@ -7,5 +7,7 @@ namespace MovieStoreTISAI.Models.Requests
         public string Title { get; set; } = string.Empty;
 
         public int Year { get; set; }
+
+        public List<string> Actors { get; set; } = new List<string>();
     }
 }

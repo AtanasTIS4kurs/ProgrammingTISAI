@@ -4,7 +4,7 @@ namespace MovieStoreTISAI.DL.Interfaces
     public interface IActorRepository
     {
         List<Actor> GetAll();
-        Actor? GetByID(int id);
-        void Delete(int id);
+        Actor? GetByID(string id);
+        void Delete(string id);
     }
 }

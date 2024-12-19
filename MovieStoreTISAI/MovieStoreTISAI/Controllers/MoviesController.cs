@@ -23,15 +23,10 @@ namespace MovieStoreTISAI.Controllers
         {
             var result = _movieService.GetAll();
 
-            if (result != null && result.Count > 0)
-            {
-                return Ok(result);
-            }
-
-            return NotFound();
+            return result != null && result.Count > 0 ? Ok(result) : NotFound();
         }
-        
-        
+
+
         //[ProducesResponseType(200)]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
         //[ProducesResponseType(StatusCodes.Status400BadRequest)]

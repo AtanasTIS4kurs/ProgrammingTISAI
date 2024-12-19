@@ -13,6 +13,9 @@ namespace MovieStoreTISAI.Validator
                  .NotNull()
                  .LessThan(3000)
                  .GreaterThan(1900);
+            RuleFor(AddMovieRequest => AddMovieRequest.Actors)
+                 .NotNull()
+                 .NotEmpty();
 
         }        
     }

@@ -7,27 +7,25 @@ namespace MovieStoreTISAI.DL.Repositories
 {
     internal class ActorStaticDataRepository : IActorRepository
     {
-        //public void Add()
-        //{
+        public void Add()
+        {
+        }
 
-        //}
-       
         public List<Actor> GetAll()
         {
             return StaticDb.Actors;
         }
-        public Actor? GetByID(int id)
+        public Actor? GetByID(string id)
         {
-            if (id <= 0) return null;
-
-            return StaticDb.Actors
-                .FirstOrDefault(x => x.Id == id);
+            if (!string.IsNullOrEmpty(id)) return null;
+            else
+            return StaticDb.Actors(id);
         }
-        public void Delete(int id)
+        public void Delete(string id)
         {
             var actor = GetByID(id);
 
-            if (actor != null)
+            if (!string.IsNullOrEmpty(id) && actor != null)
             {
                 StaticDb.Actors.Remove(actor);
             }

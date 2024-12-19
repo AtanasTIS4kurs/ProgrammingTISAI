@@ -6,6 +6,7 @@ using MovieStoreTISAI.Models.Requests;
 using MovieStoreTISAI.Validator;
 using FluentValidation.AspNetCore;
 using MovieStoreTISAI.Models.Configuration;
+using MovieStoreTISAI.ServiceExtensions;
 
 namespace MovieStoreTISAI
 {
@@ -25,6 +26,7 @@ namespace MovieStoreTISAI
             builder.Services.AddSwaggerGen();
             builder.Services.AddValidatorsFromAssemblyContaining<MovieValidator>();
             builder.Services.AddFluentValidationAutoValidation();
+            builder.Services.AddConfiguration(builder.Configuration);
 
             var app = builder.Build();
 
