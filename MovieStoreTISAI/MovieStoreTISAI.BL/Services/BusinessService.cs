@@ -36,9 +36,9 @@ namespace MovieStoreTISAI.BL.Services
                 };
                 foreach (var actorId in movie.Actors)
                 {
-                    var actor = _actorRepository.GetByID(actorId);
-                    if (actor == null) continue;
-                    detailedMovie.Actors.Add(actor);
+                    //var actor = _actorRepository.GetByID(actorId);
+                    //if (actor == null) continue;
+                    //detailedMovie.Actors.Add(actor);
                 }
                 result.Add(detailedMovie);
             }

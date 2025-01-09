@@ -24,11 +24,13 @@ namespace MovieStoreTISAI
             builder.Services.AddMapster();
             builder.Services.AddControllers();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddHealthChecks();
             builder.Services.AddValidatorsFromAssemblyContaining<MovieValidator>();
             builder.Services.AddFluentValidationAutoValidation();
             builder.Services.AddConfiguration(builder.Configuration);
 
             var app = builder.Build();
+            app.MapHealthChecks("/healthz");
 
             if (app.Environment.IsDevelopment())
             {

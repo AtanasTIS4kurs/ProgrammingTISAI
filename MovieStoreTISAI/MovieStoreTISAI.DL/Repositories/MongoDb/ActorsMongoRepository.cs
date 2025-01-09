@@ -5,15 +5,16 @@ using MovieStoreTISAI.DL.Interfaces;
 using MovieStoreTISAI.Models.Configuration;
 using MovieStoreTISAI.Models.DTO;
 
+
 namespace MovieStoreTISAI.DL.Repositories.MongoDb
 {
-    internal class MoviesMongoRepository : IMovieRepository
-    {   
-        private readonly IMongoCollection<Movie> _moviesCollection;
-        private readonly ILogger<MoviesMongoRepository> _logger;
-        public MoviesMongoRepository(
+    internal class ActorsMongoRepository : IActorRepository
+    {
+        private readonly IMongoCollection<Actor> _actorsCollection;
+        private readonly ILogger<ActorsMongoRepository> _logger;
+        public ActorsMongoRepository(
             IOptionsMonitor<MongoDbConfiguration> mongoConfig,
-            ILogger<MoviesMongoRepository> logger)
+            ILogger<ActorsMongoRepository> logger)
         {
             _logger = logger;
 
@@ -25,41 +26,25 @@ namespace MovieStoreTISAI.DL.Repositories.MongoDb
 
             var client = new MongoClient(mongoConfig.CurrentValue.ConnectionString);
             var database = client.GetDatabase(mongoConfig.CurrentValue.DatabaseName);
-            _moviesCollection = database.GetCollection<Movie>($"{nameof(Movie)}s");
+            _actorsCollection = database.GetCollection<Actor>($"{nameof(Actor)}s");
         }
-
-        public void Add(Movie movie)
-        {
-            if (movie == null) {
-                _logger.LogError("Movie is null");
-                return;
-            }
-            try
-            {
-                _moviesCollection.InsertOne(movie);
-            }
-            catch (Exception ex) {
-                _logger.LogError(ex, "Failed to add movie");
-            }
-        }
-
-        public void Add()
-        {
-          
-            // movie.Id = Guid.NewGuid().ToString();
-        }
+        //public void Add()
+        //{
+        //    movie.Id = Guid.NewGuid().ToString();
+        //}
 
         public void Delete(string id)
         {
         }
 
-        public List<Movie> GetAll()
+
+        List<Actor> IActorRepository.GetAll()
         {
-            return _moviesCollection.Find(m=>true)
+            return _actorsCollection.Find(m => true)
                 .ToList();
         }
 
-        public Movie? GetByID(string id)
+        Actor? IActorRepository.GetByID(string id)
         {
             throw new NotImplementedException();
         }

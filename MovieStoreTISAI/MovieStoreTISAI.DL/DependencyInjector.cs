@@ -12,7 +12,7 @@ namespace MovieStoreTISAI.DL
         {
             return services
                 .AddSingleton<IMovieRepository, MoviesMongoRepository>()
-                .AddSingleton<IActorRepository, ActorStaticDataRepository>();
+                .AddSingleton<IActorRepository, ActorsMongoRepository>();
         }
     }
 }

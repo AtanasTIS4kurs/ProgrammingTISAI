@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieStoreTISAI", "MovieStoreTISAI\MovieStoreTISAI.csproj", "{F8E14CBE-11E4-4C4A-B439-B1510515FD10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieStoreTISAI", "MovieStoreTISAI\MovieStoreTISAI.csproj", "{F8E14CBE-11E4-4C4A-B439-B1510515FD10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieStoreTISAI.Models", "MovieStoreTISAI.Models\MovieStoreTISAI.Models.csproj", "{AD1ECB62-15E1-4078-AE09-4851CF9F1FF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieStoreTISAI.Models", "MovieStoreTISAI.Models\MovieStoreTISAI.Models.csproj", "{AD1ECB62-15E1-4078-AE09-4851CF9F1FF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieStoreTISAI.DL", "MovieStoreTISAI.DL\MovieStoreTISAI.DL.csproj", "{7732DEA3-3C9D-4813-9582-3482BCD10170}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieStoreTISAI.DL", "MovieStoreTISAI.DL\MovieStoreTISAI.DL.csproj", "{7732DEA3-3C9D-4813-9582-3482BCD10170}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieStoreTISAI.BL", "MovieStoreTISAI.BL\MovieStoreTISAI.BL.csproj", "{3F4FC48E-890C-45EB-AA35-B8FC15A2FEFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieStoreTISAI.BL", "MovieStoreTISAI.BL\MovieStoreTISAI.BL.csproj", "{3F4FC48E-890C-45EB-AA35-B8FC15A2FEFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieStoreTISAI.Test", "MovieStoreTISAI.Test\MovieStoreTISAI.Test.csproj", "{4A19BB1B-B4AB-4B3E-8834-1794F33602AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{3F4FC48E-890C-45EB-AA35-B8FC15A2FEFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F4FC48E-890C-45EB-AA35-B8FC15A2FEFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F4FC48E-890C-45EB-AA35-B8FC15A2FEFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A19BB1B-B4AB-4B3E-8834-1794F33602AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A19BB1B-B4AB-4B3E-8834-1794F33602AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A19BB1B-B4AB-4B3E-8834-1794F33602AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A19BB1B-B4AB-4B3E-8834-1794F33602AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

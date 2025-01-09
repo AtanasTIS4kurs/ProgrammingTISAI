@@ -14,4 +14,7 @@
     <ProjectReference Include="..\MovieStoreTISAI.DL\MovieStoreTISAI.DL.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="MovieStoreTISAI.Test"/>
+	</ItemGroup>
 </Project>

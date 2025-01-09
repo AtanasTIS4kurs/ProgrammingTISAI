@@ -1,34 +1,34 @@
-﻿using MovieStoreTISAI.Models.DTO;
-using System.Xml.Linq;
+﻿//using MovieStoreTISAI.Models.DTO;
+//using System.Xml.Linq;
 
-namespace MovieStoreTISAI.DL.StaticData
-{
-    internal static class StaticDb
-    {
+//namespace MovieStoreTISAI.DL.StaticData
+//{
+//    internal static class StaticDb
+//    {
 
-        public static List<Actor> Actors { get; set; } = new List<Actor>()
-        {
-            new Actor()
-            {
-               // Id = 1,
-               Id = "1",
-                Name = "Actor1"
-            },
-            new Actor()
-            {
-               // Id = 2,
-               Id = "2",
-                Name = "Actor2"
-            },
-            new Actor()
-            {
-               // Id = 3,
-               Id = "3",
-                Name = "Actor3"
-            }
-        };
-    }
-}
+//        public static List<Actor> Actors { get; set; } = new List<Actor>()
+//        {
+//            new Actor()
+//            {
+//               // Id = 1,
+//               Id = "1",
+//                Name = "Actor1"
+//            },
+//            new Actor()
+//            {
+//               // Id = 2,
+//               Id = "2",
+//                Name = "Actor2"
+//            },
+//            new Actor()
+//            {
+//               // Id = 3,
+//               Id = "3",
+//                Name = "Actor3"
+//            }
+//        };
+//    }
+//}
 
 //        //public static List<Movie> Movies { get; set; } = new List<Movie>()
 //        //{
