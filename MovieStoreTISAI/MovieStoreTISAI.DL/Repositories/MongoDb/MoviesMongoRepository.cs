@@ -61,7 +61,19 @@ namespace MovieStoreTISAI.DL.Repositories.MongoDb
 
         public Movie? GetByID(string id)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(id))
+            {
+                _logger.LogError("MovieId is null or empty");
+                return null;
+            }
+            return _moviesCollection
+               .Find(m => m.Id == id)
+               .FirstOrDefault();
+        }
+
+        public void Update(Movie movie)
+        {
+            _moviesCollection.ReplaceOne(m => m.Id == movie.Id, movie);
         }
     }
 }

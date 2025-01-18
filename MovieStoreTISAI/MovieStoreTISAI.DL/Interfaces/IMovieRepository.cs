@@ -7,5 +7,7 @@ namespace MovieStoreTISAI.DL.Interfaces
         void Add(Movie movie);
         Movie? GetByID(string id);
         void Delete(string id);
+
+        void Update(Movie movie);
     }
 }

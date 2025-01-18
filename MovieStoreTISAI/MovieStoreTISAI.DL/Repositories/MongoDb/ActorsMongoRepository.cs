@@ -46,7 +46,9 @@ namespace MovieStoreTISAI.DL.Repositories.MongoDb
 
         Actor? IActorRepository.GetByID(string id)
         {
-            throw new NotImplementedException();
+            return _actorsCollection
+               .Find(m => m.Id == id)
+               .FirstOrDefault();
         }
     }
 }

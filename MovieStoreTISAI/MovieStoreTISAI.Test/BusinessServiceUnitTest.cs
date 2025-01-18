@@ -11,6 +11,7 @@ namespace MovieStoreTISAI.Test
 
         private readonly Mock<IActorRepository> _actorRepositoryMock;
 
+
         public static List<Actor> _actors = new List<Actor>()
                 {
                     new Actor()
@@ -67,7 +68,7 @@ namespace MovieStoreTISAI.Test
         public void GetAllMovies_OK()
         {
             //setup
-            var expectedCount = 2;
+            var expectedCount = 3;
 
             _movieRepositoryMock.Setup(x => x.GetAll()).Returns(_movies);
             //_actorRepositoryMock.Setup(x => x.GetById(It.IsAny<string>())).Returns((string id)=>_actors.FirstOrDefault(x=>x.Id == id));
