@@ -63,14 +63,14 @@ namespace MovieStoreTISAI.Test
             _actorRepositoryMock = new Mock<IActorRepository>();
 
         }
-        
+
         [Fact]
-        public void GetAllMovies_OK()
+        public async void GetAllMovies_OK()
         {
             //setup
             var expectedCount = 3;
 
-            _movieRepositoryMock.Setup(x => x.GetAll()).Returns(_movies);
+            _movieRepositoryMock.Setup(x => x.GetAll()).ReturnsAsync(_movies);
             //_actorRepositoryMock.Setup(x => x.GetById(It.IsAny<string>())).Returns((string id)=>_actors.FirstOrDefault(x=>x.Id == id));
             //_actorRepositoryMock.Setup(x => x.GetAll()).Returns(_actors);
 
@@ -80,11 +80,11 @@ namespace MovieStoreTISAI.Test
                 _actorRepositoryMock.Object
                 );
             //act
-            var result=bussinessSevice.GetAllMovies();
+            var result = await bussinessSevice.GetAllMovies();
 
             //assert
-            Assert.NotNull( result );
-            Assert.Equal( expectedCount, result.Count );
+            Assert.NotNull(result);
+            Assert.Equal(expectedCount, result.Count);
         }
     }
 }

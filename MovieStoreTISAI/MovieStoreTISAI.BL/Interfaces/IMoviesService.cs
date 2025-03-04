@@ -4,15 +4,15 @@ namespace MovieStoreTISAI.BL.Interfaces
 {
     public interface IMoviesService
     {
-        
-        List<Movie> GetAll();
+        Task Update(Movie movie);
+        Task<List<Movie>> GetAll();
 
-        Movie? GetByID(string id);
+        Task<Movie?> GetByID(string id);
 
-        void Delete(string id);
+        Task Delete(string id);
 
-        void Add(Movie movie);
+        Task Add(Movie movie);
 
-        void AddActorToMovie(string movieId, string actorId);
+        Task AddActorToMovie(string movieId, string actorId);
     }
 }

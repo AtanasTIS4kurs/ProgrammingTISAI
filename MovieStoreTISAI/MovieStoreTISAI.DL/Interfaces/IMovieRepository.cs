@@ -3,11 +3,11 @@ namespace MovieStoreTISAI.DL.Interfaces
 {
     public interface IMovieRepository
     {
-        List<Movie> GetAll();
-        void Add(Movie movie);
-        Movie? GetByID(string id);
-        void Delete(string id);
+        Task<List<Movie>> GetAll();
+        Task Add(Movie movie);
+        Task<Movie?> GetByID(string id);
+        Task Delete(string id);
 
-        void Update(Movie movie);
+        Task Update(Movie movie);
     }
 }

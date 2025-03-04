@@ -28,7 +28,7 @@ namespace MovieStoreTISAI.DL.Repositories.MongoDb
             _moviesCollection = database.GetCollection<Movie>($"{nameof(Movie)}s");
         }
 
-        public void Add(Movie movie)
+        public async Task Add(Movie movie)
         {
             if (movie == null) {
                 _logger.LogError("Movie is null");
@@ -36,44 +36,33 @@ namespace MovieStoreTISAI.DL.Repositories.MongoDb
             }
             try
             {
-                _moviesCollection.InsertOne(movie);
+              await  _moviesCollection.InsertOneAsync(movie);
             }
             catch (Exception ex) {
                 _logger.LogError(ex, "Failed to add movie");
             }
         }
 
-        public void Add()
+        public async Task Delete(string id)
         {
-          
-            // movie.Id = Guid.NewGuid().ToString();
+            await _moviesCollection.DeleteOneAsync(m => m.Id == id);
         }
 
-        public void Delete(string id)
+        public async Task<List<Movie>>  GetAll()
         {
+            var result = await _moviesCollection.FindAsync(m => true);
+                return result.ToList();
         }
 
-        public List<Movie> GetAll()
+        public async Task<Movie?> GetByID(string id)
         {
-            return _moviesCollection.Find(m=>true)
-                .ToList();
+            var result = await _moviesCollection.FindAsync(m => m.Id == id);
+            return  result.FirstOrDefault();
         }
 
-        public Movie? GetByID(string id)
+        public async Task Update(Movie movie)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                _logger.LogError("MovieId is null or empty");
-                return null;
-            }
-            return _moviesCollection
-               .Find(m => m.Id == id)
-               .FirstOrDefault();
-        }
-
-        public void Update(Movie movie)
-        {
-            _moviesCollection.ReplaceOne(m => m.Id == movie.Id, movie);
+           await _moviesCollection.ReplaceOneAsync(m => m.Id == movie.Id, movie);
         }
     }
 }

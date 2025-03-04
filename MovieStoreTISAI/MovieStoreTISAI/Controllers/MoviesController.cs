@@ -19,40 +19,31 @@ namespace MovieStoreTISAI.Controllers
         }
         [HttpGet("GetALL")]
 
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var result = _movieService.GetAll();
+            var result = await _movieService.GetAll();
 
             return result != null && result.Count > 0 ? Ok(result) : NotFound();
         }
-
-
-        //[ProducesResponseType(200)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("Add")]
-        public IActionResult Add([FromBody] AddMovieRequest movie)
+        public async Task<IActionResult>  Add([FromBody] AddMovieRequest movie)
         {
             var movieDto = _mapper.Map<Movie>(movie);
-
-            _movieService.Add(movieDto);
-
-            return Ok();
+              if (movieDto == null) return BadRequest();
+            await _movieService.Add(movieDto);
+            return Ok(movieDto);
         }
         [HttpGet("GetByID")]
-        public Movie? GetByID(string id)
+        public async Task<Movie?> GetByID(string id)
         {
-            //if (id > 0)
-            //{
-            //    return BadRequest($wrong Id)
-            //}
-            return _movieService.GetByID(id);
+            
+            return await _movieService.GetByID(id);
 
         }
         [HttpGet("Delete")]
-        public void Delete(string id)
+        public async Task Delete(string id)
         {
-             _movieService.Delete(id);
+            await _movieService.Delete(id);
 
         }
     }

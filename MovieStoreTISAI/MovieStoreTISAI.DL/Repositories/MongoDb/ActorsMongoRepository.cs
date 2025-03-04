@@ -28,27 +28,49 @@ namespace MovieStoreTISAI.DL.Repositories.MongoDb
             var database = client.GetDatabase(mongoConfig.CurrentValue.DatabaseName);
             _actorsCollection = database.GetCollection<Actor>($"{nameof(Actor)}s");
         }
-        //public void Add()
-        //{
-        //    movie.Id = Guid.NewGuid().ToString();
-        //}
 
-        public void Delete(string id)
+        public async Task Add(Actor actor)
         {
+            if (actor == null)
+            {
+                _logger.LogError("Actor is null");
+                return;
+            }
+            try
+            {
+                await _actorsCollection.InsertOneAsync(actor);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to add actor");
+            }
         }
 
-
-        List<Actor> IActorRepository.GetAll()
+        public async Task Delete(string id)
         {
-            return _actorsCollection.Find(m => true)
-                .ToList();
+            await _actorsCollection.DeleteOneAsync(m => m.Id == id);
+        }
+        //search mongo get result by multiple id for GetActors(
+        public async Task<Actor?> GetActors(List<string> id)
+        {
+            var result = await _actorsCollection.FindAsync();
         }
 
-        Actor? IActorRepository.GetByID(string id)
+        public async Task<List<Actor>> GetAll()
         {
-            return _actorsCollection
-               .Find(m => m.Id == id)
-               .FirstOrDefault();
+            var result = await _actorsCollection.FindAsync(m => true);
+                return result.ToList();
+        }
+
+        public async Task<Actor?> GetByID(string id)
+        {
+            var result = await _actorsCollection.FindAsync(m => m.Id == id);
+            return result.FirstOrDefault();
+        }
+
+        public async Task Update(Actor actor)
+        {
+            await _actorsCollection.ReplaceOneAsync(m => m.Id == actor.Id, actor);
         }
     }
 }

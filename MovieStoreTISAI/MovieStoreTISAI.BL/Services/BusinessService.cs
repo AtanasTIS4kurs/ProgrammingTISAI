@@ -19,11 +19,11 @@ namespace MovieStoreTISAI.BL.Services
         }
 
 
-        public List<MovieFullDetailsResponse> GetAllMovies()
+        public async Task<List<MovieFullDetailsResponse>> GetAllMovies()
         {
             var result = new List<MovieFullDetailsResponse>();
-            var movies = _movieRepository.GetAll();
-            var actors = _actorRepository.GetAll();
+            var movies = await _movieRepository.GetAll();
+            var actors = await _actorRepository.GetAll();
             foreach (var movie in movies)
             {
                 var detailedMovie = new MovieFullDetailsResponse()
@@ -34,13 +34,19 @@ namespace MovieStoreTISAI.BL.Services
                     Actors = new List<Actor>()
 
                 };
-                foreach (var actorId in movie.Actors)
-                {
-                    //var actor = _actorRepository.GetByID(actorId);
-                    //if (actor == null) continue;
-                    //detailedMovie.Actors.Add(actor);
-                }
-                result.Add(detailedMovie);
+               // var tasks = movie.Actors.Select(actorId => _actorRepository.GetByID(actorId)).ToList();
+               // //Друг начин
+               // //var tasks = new List<Task<Actor>>();
+               // //foreach (var actorId in movie.Actors)
+               // //{
+               // //    var t = _actorRepository.GetByID(actorId);
+               // //    tasks.Add(t);
+               // //}
+               // var response = await Task.WhenAll(tasks);
+               //// if (response != null && response.Any()) movie.Actors = response.ToList();
+               // detailedMovie.Actors = response.ToList();
+               var actors:List<Actor> await _actorRepository.GetActors(detailedMovie);
+              result.Add(detailedMovie);
             }
 
             return result;
