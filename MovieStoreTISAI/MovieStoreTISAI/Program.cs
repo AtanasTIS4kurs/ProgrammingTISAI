@@ -21,6 +21,8 @@ namespace MovieStoreTISAI
             // Add services to the container.
             builder.Services.RegisterRepositories();
             builder.Services.RegisterServices();
+            builder.Services.AddBackgroundServices();
+            builder.Services.AddHostedServices();
             builder.Services.AddMapster();
             builder.Services.AddControllers();
             builder.Services.AddSwaggerGen();

@@ -15,16 +15,17 @@ namespace MovieStoreTISAI.Controllers
         {
             _blService = movieService;
         }
-        //[HttpGet("GetALLDetailedMovies")]
-        //public IActionResult GetAllDetailedMovie()
-        //{
-        //    var result = _blService.GetAllMovies();
-        //    if (result != null && result.Count > 0)
-        //    {
-        //        return Ok(result);
-        //    }
-        //    return NotFound();
-        //}
+        //fix this
+        [HttpGet("GetALLDetailedMovies")]
+        public IActionResult GetAllDetailedMovie()
+        {
+            var result = _blService.GetAllMovies();
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            return NotFound();
+        }
     }
 }
 

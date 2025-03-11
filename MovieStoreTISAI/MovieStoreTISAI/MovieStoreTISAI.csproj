@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MovieStoreTISAI.BL\MovieStoreTISAI.BL.csproj" />
+    <ProjectReference Include="..\MovieStoreTISAI.Models\MovieStoreTISAI.Models.csproj" />
   </ItemGroup>
 
 </Project>

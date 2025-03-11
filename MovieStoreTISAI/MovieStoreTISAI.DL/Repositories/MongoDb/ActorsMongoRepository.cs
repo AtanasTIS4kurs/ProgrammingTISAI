@@ -50,10 +50,11 @@ namespace MovieStoreTISAI.DL.Repositories.MongoDb
         {
             await _actorsCollection.DeleteOneAsync(m => m.Id == id);
         }
-        //search mongo get result by multiple id for GetActors(
-        public async Task<Actor?> GetActors(List<string> id)
+        public async Task<List<Actor>> GetActors(List<string> id)
         {
-            var result = await _actorsCollection.FindAsync();
+            var result = await _actorsCollection.FindAsync(m => id.Contains(m.Id.ToString()));
+
+            return await result.ToListAsync();
         }
 
         public async Task<List<Actor>> GetAll()
