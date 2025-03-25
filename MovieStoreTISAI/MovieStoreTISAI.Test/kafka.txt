@@ -1,0 +1,47 @@
+using Confluent.Kafka;
+
+namespace ConsoleApp5
+{
+    internal class Program
+    {
+        static IProducer<int, string> producer;
+
+        static IConsumer<int, string> consumer;
+        static async Task Main(string[] args)
+        {
+            var cfgPrd = new ProducerConfig
+            {
+                BootstrapServers = "localhost:9092"
+            };
+
+            producer = new ProducerBuilder<int, string>(cfgPrd).Build();
+            var cfgCsm = new ConsumerConfig
+            {
+                BootstrapServers = "localhost:9092",
+                GroupId = "test-group",
+                AutoOffsetReset = AutoOffsetReset.Earliest
+            };
+
+            consumer = new ConsumerBuilder<int, string>(cfgCsm).Build();
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    producer.Produce("test-topic", new Message<int, string> { Key = 1, Value = "Hello World" });
+
+                    await Task.Delay(1000);
+                }
+            });
+            await Task.Run(() => 
+            {
+                consumer.Subscribe("test-topic");
+                while (true)
+                {
+                    var consumeResult = consumer.Consume();
+                    Console.WriteLine($"Consumed:{consumeResult.Message.Key}-{consumeResult.Message.Value}");
+                }
+            });
+            Console.Read();
+        }
+    }
+}
