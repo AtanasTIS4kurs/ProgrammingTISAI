@@ -59,7 +59,16 @@ namespace MovieStoreTISAI.DL.Repositories.MongoDb
             var result = await _moviesCollection.FindAsync(m => m.Id == id);
             return  result.FirstOrDefault();
         }
-
+        public async Task<IEnumerable<Movie?>> GetMoviesAfterDateTime(DateTime date)
+        {
+            if (date == null || date < )
+            {
+                _logger.LogError("Date is null");
+                return Enumerable.Empty<Movie>();
+            }
+            var result = await _moviesCollection.FindAsync(m => m.DateInserted == date);
+            return await result.ToListAsync();
+        }
         public async Task Update(Movie movie)
         {
            await _moviesCollection.ReplaceOneAsync(m => m.Id == movie.Id, movie);
