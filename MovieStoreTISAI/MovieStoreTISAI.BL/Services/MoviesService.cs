@@ -89,5 +89,16 @@ namespace MovieStoreTISAI.BL.Services
         {
             await _movieRepository.Update(movie);
         }
+        public async Task<List<Movie>> GetMoviesByActorId(string actorId)
+        {
+            if (string.IsNullOrEmpty(actorId))
+            {
+                _logger.LogError("ActorId is null or empty");
+                return new List<Movie>();
+            }
+
+            var movies = await _movieRepository.GetAll();
+            return movies.Where(m => m.Actors != null && m.Actors.Contains(actorId)).ToList();
+        }
     }
 }

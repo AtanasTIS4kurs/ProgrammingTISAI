@@ -41,8 +41,6 @@ namespace MovieStoreTISAI
                     app.UseSwaggerUI();
                 }
 
-                // Configure the HTTP request pipeline.
-
                 app.UseAuthorization();
 
 
@@ -50,9 +48,15 @@ namespace MovieStoreTISAI
 
                 app.Run();
             }
-            //async Method - ? 1 ?????? ????????? ?? ????? ???????????????, ????? ????????? ??????
-            //3 ?????????? GetDataFromNetwork, GetDataFromDataBase, GetDataFromCalculation
-            //??????????? Task
+            else
+            {
+                app.UseExceptionHandler("/error");
+                app.UseHsts();
+                app.UseHttpsRedirection();
+                app.UseAuthorization();
+                app.MapControllers();
+                app.Run();
+            }
         }
     }
 }
