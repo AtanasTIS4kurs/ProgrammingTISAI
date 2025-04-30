@@ -26,6 +26,16 @@ namespace MovieStoreTISAI.Controllers
             }
             return NotFound();
         }
+        [HttpGet("GetMovieById/{id}")]
+        public IActionResult GetMovieById(string id)
+        {
+            var result = _blService.GetMovieById(id);
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            return NotFound();
+        }
     }
 }
 

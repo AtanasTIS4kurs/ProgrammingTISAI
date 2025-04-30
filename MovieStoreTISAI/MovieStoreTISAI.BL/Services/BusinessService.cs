@@ -53,5 +53,10 @@ namespace MovieStoreTISAI.BL.Services
 
             return result;
         }
+
+        public object GetMovieById(string id)
+        {
+          
+        }
     }
 }
