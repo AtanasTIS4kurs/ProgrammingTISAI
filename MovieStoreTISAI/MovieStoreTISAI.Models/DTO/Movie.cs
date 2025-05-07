@@ -1,15 +1,18 @@
 ﻿namespace MovieStoreTISAI.Models.DTO
 {
-    public class Movie
+    public record Movie : CacheItem<string>
     {
-        public string Id { get; set; } = string.Empty;
+        public string Id { get; set; }
 
-        public string Title { get; set; } = string.Empty;
+        public string Title { get; set; }
 
         public int Year { get; set; }
 
-        public required List<string> Actors { get; set; } 
+        public List<string> ActorIds { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        public override string GetKey()
+        {
+            return Id;
+        }
     }
 }

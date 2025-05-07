@@ -5,73 +5,67 @@ using MovieStoreTISAI.DL.Interfaces;
 using MovieStoreTISAI.Models.Configuration;
 using MovieStoreTISAI.Models.DTO;
 
-namespace MovieStoreTISAI.DL.Repositories.MongoDb
+namespace MovieStoreB.DL.Repositories.MongoRepositories
 {
-    internal class MoviesMongoRepository : IMovieRepository
-    {   
+    internal class MoviesRepository : IMovieRepository
+    {
         private readonly IMongoCollection<Movie> _moviesCollection;
-        private readonly ILogger<MoviesMongoRepository> _logger;
-        public MoviesMongoRepository(
-            IOptionsMonitor<MongoDbConfiguration> mongoConfig,
-            ILogger<MoviesMongoRepository> logger)
+        private readonly ILogger<MoviesRepository> _logger;
+
+        public MoviesRepository(ILogger<MoviesRepository> logger, IOptionsMonitor<MongoDbConfiguration> mongoConfig)
         {
             _logger = logger;
 
             if (string.IsNullOrEmpty(mongoConfig?.CurrentValue?.ConnectionString) || string.IsNullOrEmpty(mongoConfig?.CurrentValue?.DatabaseName))
             {
-                _logger.LogError("MongoDb ConnectionString is null or empty");
-                throw new ArgumentNullException("MongoDb ConnectionString is null or empty");
+                _logger.LogError("MongoDb configuration is missing");
+
+                throw new ArgumentNullException("MongoDb configuration is missing");
             }
 
             var client = new MongoClient(mongoConfig.CurrentValue.ConnectionString);
             var database = client.GetDatabase(mongoConfig.CurrentValue.DatabaseName);
+
             _moviesCollection = database.GetCollection<Movie>($"{nameof(Movie)}s");
         }
 
-        public async Task Add(Movie movie)
+        public void AddMovie(Movie movie)
         {
-            if (movie == null) {
-                _logger.LogError("Movie is null");
-                return;
-            }
-            try
-            {
-              await  _moviesCollection.InsertOneAsync(movie);
-            }
-            catch (Exception ex) {
-                _logger.LogError(ex, "Failed to add movie");
-            }
+            movie.Id = Guid.NewGuid().ToString();
+
+            _moviesCollection.InsertOne(movie);
         }
 
-        public async Task Delete(string id)
+        public void DeleteMovie(string id)
         {
-            await _moviesCollection.DeleteOneAsync(m => m.Id == id);
+            _moviesCollection.DeleteOne(m => m.Id == id);
         }
 
-        public async Task<List<Movie>>  GetAll()
+        public async Task<List<Movie>> GetMovies()
         {
-            var result = await _moviesCollection.FindAsync(m => true);
-                return result.ToList();
+            return _moviesCollection.Find(m => true).ToList();
         }
 
-        public async Task<Movie?> GetByID(string id)
+        public Movie? GetMoviesById(string id)
         {
-            var result = await _moviesCollection.FindAsync(m => m.Id == id);
-            return  result.FirstOrDefault();
+            return _moviesCollection.Find(m => m.Id == id).FirstOrDefault();
         }
+
         public async Task<IEnumerable<Movie?>> GetMoviesAfterDateTime(DateTime date)
         {
-            if (date == null || date < )
-            {
-                _logger.LogError("Date is null");
-                return Enumerable.Empty<Movie>();
-            }
-            var result = await _moviesCollection.FindAsync(m => m.DateInserted == date);
+            var result = await _moviesCollection.FindAsync(m => m.DateInserted >= date);
+
             return await result.ToListAsync();
         }
-        public async Task Update(Movie movie)
+
+        public async Task<IEnumerable<Movie?>> FullLoad()
         {
-           await _moviesCollection.ReplaceOneAsync(m => m.Id == movie.Id, movie);
+            return await GetMovies();
+        }
+
+        public async Task<IEnumerable<Movie?>> DifLoad(DateTime lastExecuted)
+        {
+            return await GetMoviesAfterDateTime(lastExecuted);
         }
     }
 }

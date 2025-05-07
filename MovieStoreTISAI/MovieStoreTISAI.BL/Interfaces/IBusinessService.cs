@@ -3,8 +3,8 @@
 namespace MovieStoreTISAI.BL.Interfaces
 {
     public interface IBusinessService
-    {   
-        Task<List<MovieFullDetailsResponse>> GetAllMovies();
-        object GetMovieById(string id);
+    {
+        Task<List<FullMovieDetails>> GetAllMovieDetails();
+
     }
 }

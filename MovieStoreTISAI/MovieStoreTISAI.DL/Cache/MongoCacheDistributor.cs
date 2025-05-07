@@ -1,44 +1,44 @@
 ﻿using Microsoft.Extensions.Hosting;
-using MongoDB.Driver;
+using Microsoft.Extensions.Options;
 using MovieStoreTISAI.Models.DTO;
-using MovieStoreTISAI.DL.Interfaces;
 
-namespace MovieStoreTISAI.DL.Cache
+namespace MovieStoreB.DL.Cache
 {
-    public class MongoCacheDistributor : BackgroundService
+    public class MongoCachePopulator<TData, TDataRepository, TConfigurationType, TKey> : BackgroundService
+        where TDataRepository : ICacheRepository<TData>
+        where TData : CacheItem<TKey>
+        where TConfigurationType : CacheConfiguration
     {
-        //Full load method - read entire collection and load it into memory - GetALlMOvies()
-        //Diffload method - read only the changed data and load it into memory - GetUpdatedMovies(DateTime lastUsed)
+        private readonly ICacheRepository<TData> _cacheRepository;
+        private readonly IOptionsMonitor<TConfigurationType> _configuration;
 
-        private readonly IMovieRepository<Movie> _movieRepository;
-        public MongoCacheDistributor(IMovieRepository<Movie> movieRepository)
+        public MongoCachePopulator(ICacheRepository<TData> cacheRepository, IOptionsMonitor<TConfigurationType> configuration)
         {
-            _movieRepository = movieRepository;
+            _cacheRepository = cacheRepository;
+            _configuration = configuration;
         }
+
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var lastExecutionTime = DateTime.UtcNow;
-            var result = _movieRepository.GetAll();
+            var lastExecuted = DateTime.UtcNow;
 
-            foreach (var movie in result)
-            {
-                Console.WriteLine(movie.Title);
-            }
+            var result = await _cacheRepository.FullLoad();
+
             while (!stoppingToken.IsCancellationRequested)
             {
-                await Task.Delay(TimeSpan.FromSeconds(30), stoppingToken);
+                await Task.Delay(TimeSpan.FromSeconds(_configuration.CurrentValue.RefreshInterval), stoppingToken);
 
-                var updatedMovies = await _movieRepository.GetUpdatedMovies(lastExecutionTime);
+                var updatedMovies = await _cacheRepository.DifLoad(lastExecuted);
 
-                lastExecutionTime = DateTime.UtcNow;
-
-                foreach (var movie in updatedMovies)
+                if (updatedMovies == null || !updatedMovies.Any())
                 {
-                    if (movie == null)
-                    {
-                        Console.WriteLine(movie.Title);
-                    }
+                    continue;
                 }
+
+                var lastUpdated = updatedMovies.Last()?.DateInserted;
+
+                lastExecuted = lastUpdated ?? DateTime.UtcNow;
+
             }
         }
     }

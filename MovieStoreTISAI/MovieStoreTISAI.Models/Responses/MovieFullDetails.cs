@@ -2,16 +2,16 @@
 
 namespace MovieStoreTISAI.Models.Responses
 {
-    public class MovieFullDetailsResponse
+    public class FullMovieDetails
     {
-       
-            public string Id { get; set; }
+        public string Id { get; set; }
 
-            public string Title { get; set; } = string.Empty;
+        public string Title { get; set; }
 
-            public int Year { get; set; }
+        public int Year { get; set; }
 
-            public List<Actor> Actors { get; set; }
-        
+        public DateTime DateInserted { get; set; }
+
+        public List<Actor> Actors { get; set; }
     }
 }

@@ -1,62 +1,41 @@
 ﻿using MovieStoreTISAI.BL.Interfaces;
 using MovieStoreTISAI.DL.Interfaces;
-using MovieStoreTISAI.Models.DTO;
 using MovieStoreTISAI.Models.Responses;
 
 namespace MovieStoreTISAI.BL.Services
 {
     internal class BusinessService : IBusinessService
     {
-        private readonly IMovieRepository _movieRepository;
-
+        private readonly IBusinessService _movieService;
         private readonly IActorRepository _actorRepository;
-        public BusinessService(
-            IMovieRepository movieRepository,
-            IActorRepository actorRepository)
+
+        public BusinessService(IMoviesService movieService, IActorRepository actorRepository)
         {
-            _movieRepository = movieRepository;
+            _movieService = movieService;
             _actorRepository = actorRepository;
         }
 
-
-        public async Task<List<MovieFullDetailsResponse>> GetAllMovies()
+        public async Task<List<FullMovieDetails>> GetAllMovieDetails()
         {
-            var result = new List<MovieFullDetailsResponse>();
-            var movies = await _movieRepository.GetAll();
-            var actors = await _actorRepository.GetAll();
+            var result = new List<FullMovieDetails>();
+
+            var movies = await _movieService.GetMovies();
+
             foreach (var movie in movies)
             {
-                var detailedMovie = new MovieFullDetailsResponse()
+                var movieDetails = new FullMovieDetails();
+                movieDetails.Title = movie.Title;
+                movieDetails.Year = movie.Year;
+                movieDetails.Id = movie.Id;
+
+                foreach (var actorId in movie.ActorIds)
                 {
-                    Id = movie.Id,
-                    Title = movie.Title,
-                    Year = movie.Year,
-                    Actors = new List<Actor>()
+                    var actor = _actorRepository.GetById(actorId);
+                }
 
-                };
-                var tasks = movie.Actors.Select(actorId => _actorRepository.GetByID(actorId)).ToList();
-                //Друг начин
-                //var tasks = new List<Task<Actor>>();
-                //foreach (var actorId in movie.Actors)
-                //{
-                //    var t = _actorRepository.GetByID(actorId);
-                //    tasks.Add(t);
-                //}
-                //var response = await Task.WhenAll(tasks);
-                // if (response != null && response.Any()) movie.Actors = response.ToList();
-                //detailedMovie.Actors = response.ToList();
-                //var actors:List<Actor> await _actorRepository.GetActors(detailedMovie);
-                var actor = await _actorRepository.GetActors(movie.Actors);
-                detailedMovie.Actors = actor;
-                result.Add(detailedMovie);
+                result.Add(movieDetails);
             }
-
             return result;
-        }
-
-        public object GetMovieById(string id)
-        {
-          
         }
     }
 }
