@@ -1,0 +1,6 @@
+@MovieStoreTISAI_HostAddress = http://localhost:5015
+
+GET {{MovieStoreTISAI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
