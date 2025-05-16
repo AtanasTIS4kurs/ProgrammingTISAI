@@ -2,9 +2,8 @@
 
 namespace MovieStoreTISAI.BL.Interfaces
 {
-    public interface IBusinessService
+    public interface IBlMovieService
     {
         Task<List<FullMovieDetails>> GetAllMovieDetails();
-
     }
 }

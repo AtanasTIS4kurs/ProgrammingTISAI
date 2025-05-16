@@ -7,12 +7,12 @@ using MovieStoreTISAI.Models.DTO;
 
 namespace MovieStoreB.DL.Repositories.MongoRepositories
 {
-    internal class MoviesRepository : IMovieRepository
+    internal class MoviesMongoRepository : IMovieRepository
     {
         private readonly IMongoCollection<Movie> _moviesCollection;
-        private readonly ILogger<MoviesRepository> _logger;
+        private readonly ILogger<MoviesMongoRepository> _logger;
 
-        public MoviesRepository(ILogger<MoviesRepository> logger, IOptionsMonitor<MongoDbConfiguration> mongoConfig)
+        public MoviesMongoRepository(ILogger<MoviesMongoRepository> logger, IOptionsMonitor<MongoDbConfiguration> mongoConfig)
         {
             _logger = logger;
 
@@ -43,7 +43,9 @@ namespace MovieStoreB.DL.Repositories.MongoRepositories
 
         public async Task<List<Movie>> GetMovies()
         {
-            return _moviesCollection.Find(m => true).ToList();
+            var result = await _moviesCollection.FindAsync(m => true);
+
+            return await result.ToListAsync();
         }
 
         public Movie? GetMoviesById(string id)
@@ -51,7 +53,7 @@ namespace MovieStoreB.DL.Repositories.MongoRepositories
             return _moviesCollection.Find(m => m.Id == id).FirstOrDefault();
         }
 
-        public async Task<IEnumerable<Movie?>> GetMoviesAfterDateTime(DateTime date)
+        protected async Task<IEnumerable<Movie?>> GetMoviesAfterDateTime(DateTime date)
         {
             var result = await _moviesCollection.FindAsync(m => m.DateInserted >= date);
 

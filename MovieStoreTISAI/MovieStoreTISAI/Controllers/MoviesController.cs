@@ -9,42 +9,67 @@ namespace MovieStoreTISAI.Controllers
     [Route("[controller]")]
     public class MoviesController : ControllerBase
     {
-
         private readonly IMoviesService _movieService;
         private readonly IMapper _mapper;
-        public MoviesController(IMoviesService movieService, IMapper mapper)
+        private readonly ILogger<MoviesController> _logger;
+
+        public MoviesController(
+            IMoviesService movieService,
+            IMapper mapper,
+            ILogger<MoviesController> logger)
         {
             _movieService = movieService;
             _mapper = mapper;
+            _logger = logger;
         }
-        [HttpGet("GetALL")]
 
-        public async Task<IActionResult> GetAll()
+        [HttpGet("GetAll")]
+        public async Task<IEnumerable<Movie>> GetAll()
         {
-            var result = await _movieService.GetAll();
-
-            return result != null && result.Count > 0 ? Ok(result) : NotFound();
+            try
+            {
+                await _movieService.GetMovies();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"Error in GetAll {e.Message}-{e.StackTrace}");
+            }
+            return await _movieService.GetMovies();
         }
-        [HttpPost("Add")]
-        public async Task<IActionResult>  Add([FromBody] AddMovieRequest movie)
-        {
-            var movieDto = _mapper.Map<Movie>(movie);
-              if (movieDto == null) return BadRequest();
-            await _movieService.Add(movieDto);
-            return Ok(movieDto);
-        }
-        [HttpGet("GetByID")]
-        public async Task<Movie?> GetByID(string id)
-        {
-            
-            return await _movieService.GetByID(id);
 
-        }
-        [HttpGet("Delete")]
-        public async Task Delete(string id)
+        [HttpGet("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult GetById(string id)
         {
-            await _movieService.Delete(id);
+            if (string.IsNullOrEmpty(id)) return BadRequest();
 
+            var result =
+                _movieService.GetMoviesById(id);
+
+            if (result == null) return NotFound();
+
+            return Ok(result);
+        }
+
+        [HttpPost("AddMovie")]
+        public void AddMovie(
+            [FromBody] AddMovieRequest movieRequest)
+        {
+            var movie = _mapper.Map<Movie>(movieRequest);
+
+            _movieService.AddMovie(movie);
+        }
+
+        [HttpDelete("Delete")]
+        public IActionResult Delete(string id)
+        {
+            if (!string.IsNullOrEmpty(id)) return BadRequest($"Wrong id:{id}");
+
+            _movieService.DeleteMovie(id);
+
+            return Ok();
         }
     }
 }

@@ -1,13 +1,17 @@
 ﻿using Confluent.Kafka;
+using Microsoft.Extensions.Options;
 using MovieStoreB.Models.Serialization;
+using MovieStoreTISAI.Models.Configuration.CachePopulator;
 using MovieStoreTISAI.Models.DTO;
 
 namespace MovieStoreTISAI.DL.Kafka
 {
-    internal class KafkaProducer<TKey, TData> : IKafkaProducer<TData> where TData : CacheItem<TKey> where TKey : notnull
+    internal class KafkaProducer<TKey, TData, TConfiguration> : IKafkaProducer<TData> where TData : ICacheItem<TKey> where TKey : notnull
+        where TConfiguration : CacheConfiguration
     {
         private readonly ProducerConfig _config;
         private readonly IProducer<TKey, TData> _producer;
+        private readonly IOptionsMonitor<TConfiguration> _kafkaConfig;
 
         public KafkaProducer()
         {
@@ -28,7 +32,7 @@ namespace MovieStoreTISAI.DL.Kafka
 
         public async Task Produce(TData message)
         {
-            await _producer.ProduceAsync("test", new Message<TKey, TData>
+            await _producer.ProduceAsync(_kafkaConfig.CurrentValue.Topic, new Message<TKey, TData>
             {
                 Key = message.GetKey(),
                 Value = message
@@ -37,9 +41,8 @@ namespace MovieStoreTISAI.DL.Kafka
 
         public async Task ProduceAll(IEnumerable<TData> messages)
         {
-            var tasks = messages.Select(message => Produce(message));
 
-            await Task.WhenAll(tasks);
+            await ProduceBatches(messages);
         }
 
         public async Task ProduceBatches(IEnumerable<TData> messages)
@@ -58,7 +61,6 @@ namespace MovieStoreTISAI.DL.Kafka
                 }
             }
 
-            // Process any remaining messages
             if (batch.Count > 0)
             {
                 await Task.WhenAll(batch);

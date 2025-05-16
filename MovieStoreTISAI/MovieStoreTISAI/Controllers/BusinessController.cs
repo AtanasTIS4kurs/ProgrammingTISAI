@@ -7,35 +7,44 @@ namespace MovieStoreTISAI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class BusinessController : ControllerBase
+    public class MoviesBlController : ControllerBase
     {
+        private readonly IMoviesService _movieService;
+        private readonly ILogger<MoviesController> _logger;
 
-        private readonly IBusinessService _blService;
-        public BusinessController(IBusinessService movieService)
+        public MoviesBlController(
+            IMoviesService movieService,
+            ILogger<MoviesController> logger)
         {
-            _blService = movieService;
+            _movieService = movieService;
+            _logger = logger;
         }
-        //fix this
-        [HttpGet("GetALLDetailedMovies")]
-        public IActionResult GetAllDetailedMovie()
+
+        [HttpPost("TestFluentValid")]
+        public async Task<IActionResult> TestFluentValid([FromBody] TestRequest movieRequest) { 
+            return Ok();
+        }
+
+        [HttpGet("GetAll")]
+        public async Task<IEnumerable<Movie>> GetAll()
         {
-            var result = _blService.GetAllMovies();
-            if (result != null)
+            try
             {
-                return Ok(result);
+                return await _movieService.GetMovies();
             }
-            return NotFound();
-        }
-        [HttpGet("GetMovieById/{id}")]
-        public IActionResult GetMovieById(string id)
-        {
-            var result = _blService.GetMovieById(id);
-            if (result != null)
+            catch (Exception e)
             {
-                return Ok(result);
+                _logger.LogError(e, $"Error in GetAll {e.Message}-{e.StackTrace}");
             }
-            return NotFound();
+            return await _movieService.GetMovies();
         }
+    }
+
+    public class TestRequest
+    {
+        public int Id { get; set; }
+
+        public string Title { get; set; }
     }
 }
 

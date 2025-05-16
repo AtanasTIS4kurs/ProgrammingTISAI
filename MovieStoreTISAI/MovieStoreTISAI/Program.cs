@@ -7,56 +7,53 @@ using MovieStoreTISAI.Validator;
 using FluentValidation.AspNetCore;
 using MovieStoreTISAI.Models.Configuration;
 using MovieStoreTISAI.ServiceExtensions;
+using MovieStoreTISAI.Controllers;
 
-namespace MovieStoreTISAI
+var builder = WebApplication.CreateBuilder(args);
+
+var logger = new LoggerConfiguration()
+    .Enrich.FromLogContext()
+    .WriteTo.Console(theme:
+        AnsiConsoleTheme.Code)
+    .CreateLogger();
+
+builder.Logging.AddSerilog(logger);
+
+// Add services to the container.
+builder.Services
+    .AddConfiguration(builder.Configuration)
+    .AddDataDependencies(builder.Configuration)
+    .AddBusinessDependencies();
+
+builder.Services.AddMapster();
+
+builder.Services.AddValidatorsFromAssemblyContaining<TestRequest>();
+builder.Services.AddFluentValidationAutoValidation();
+
+builder.Services.AddControllers();
+builder.Services.AddSwaggerGen();
+
+//builder.Services.AddHealthChecks();
+
+builder.Services.AddHealthChecks()
+    .AddCheck<SampleHealthCheck>("Sample");
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
-            //Add Configuration
-            builder.Services.Configure<MongoDbConfiguration>(
-                builder.Configuration.GetSection(nameof(MongoDbConfiguration)));
-            // Add services to the container.
-            builder.Services.RegisterRepositories();
-            builder.Services.RegisterServices();
-            builder.Services.AddBackgroundServices();
-            builder.Services.AddHostedServices();
-            builder.Services.AddMapster();
-            builder.Services.AddControllers();
-            builder.Services.AddSwaggerGen();
-            builder.Services.AddHealthChecks();
-            builder.Services.AddValidatorsFromAssemblyContaining<MovieValidator>();
-            builder.Services.AddFluentValidationAutoValidation();
-            builder.Services.AddConfiguration(builder.Configuration);
-
-            var app = builder.Build();
-            app.MapHealthChecks("/healthz");
-
-            if (app.Environment.IsDevelopment())
-            {
-                {
-                    app.UseSwagger();
-                    app.UseSwaggerUI();
-                }
-
-                app.UseAuthorization();
-
-
-                app.MapControllers();
-
-                app.Run();
-            }
-            else
-            {
-                app.UseExceptionHandler("/error");
-                app.UseHsts();
-                app.UseHttpsRedirection();
-                app.UseAuthorization();
-                app.MapControllers();
-                app.Run();
-            }
-        }
-    }
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
+
+app.MapHealthChecks("/healthz");
+
+// Configure the HTTP request pipeline.
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();

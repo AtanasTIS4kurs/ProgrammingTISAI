@@ -1,19 +1,18 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using MovieStoreTISAI.DL.Interfaces;
+using MovieStoreB.DL.Cache;
 using MovieStoreTISAI.Models.Configuration;
 using MovieStoreTISAI.Models.DTO;
 
-
 namespace MovieStoreTISAI.DL.Repositories.MongoDb
 {
-    internal class ActorsMongoRepository : IActorRepository
+    internal class ComposerRepository : ICacheRepository<int, Composer>
     {
-        private readonly IMongoCollection<Actor> _actorsCollection;
-        private readonly ILogger<ActorsMongoRepository> _logger;
+        private readonly IMongoCollection<Composer> _actorsCollection;
+        private readonly ILogger<ComposerRepository> _logger;
 
-        public ActorsMongoRepository(ILogger<ActorsMongoRepository> logger, IOptionsMonitor<MongoDbConfiguration> mongoConfig)
+        public ComposerRepository(ILogger<ComposerRepository> logger, IOptionsMonitor<MongoDbConfiguration> mongoConfig)
         {
             _logger = logger;
 
@@ -27,30 +26,30 @@ namespace MovieStoreTISAI.DL.Repositories.MongoDb
             var client = new MongoClient(mongoConfig.CurrentValue.ConnectionString);
             var database = client.GetDatabase(mongoConfig.CurrentValue.DatabaseName);
 
-            _actorsCollection = database.GetCollection<Actor>($"{nameof(Actor)}s");
+            _actorsCollection = database.GetCollection<Composer>($"{nameof(Composer)}s");
         }
 
 
-        public async Task<IEnumerable<Actor?>> DifLoad(DateTime lastExecuted)
+        public async Task<IEnumerable<Composer?>> DifLoad(DateTime lastExecuted)
         {
             var result = await _actorsCollection.FindAsync(m => m.DateInserted >= lastExecuted);
 
             return await result.ToListAsync();
         }
 
-        public async Task<IEnumerable<Actor?>> FullLoad()
+        public async Task<IEnumerable<Composer?>> FullLoad()
         {
             return await GetAllActors();
         }
 
-        public async Task<IEnumerable<Actor?>> GetAllActors()
+        public async Task<IEnumerable<Composer?>> GetAllActors()
         {
             var result = await _actorsCollection.FindAsync(m => true);
 
             return await result.ToListAsync();
         }
 
-        public async Task<Actor?> GetById(string id)
+        public async Task<Composer?> GetById(int id)
         {
             var result = await _actorsCollection.FindAsync(m => m.Id == id);
 

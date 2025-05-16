@@ -4,12 +4,12 @@ using MovieStoreTISAI.Models.Responses;
 
 namespace MovieStoreTISAI.BL.Services
 {
-    internal class BusinessService : IBusinessService
+    internal class BlMovieService : IBlMovieService
     {
-        private readonly IBusinessService _movieService;
+        private readonly IMovieService _movieService;
         private readonly IActorRepository _actorRepository;
 
-        public BusinessService(IMoviesService movieService, IActorRepository actorRepository)
+        public BlMovieService(IMovieService movieService, IActorRepository actorRepository)
         {
             _movieService = movieService;
             _actorRepository = actorRepository;

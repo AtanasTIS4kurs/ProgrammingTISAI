@@ -8,6 +8,6 @@ namespace MovieStoreTISAI.Models.Requests
 
         public int Year { get; set; }
 
-        public List<string> Actors { get; set; } = new List<string>();
+        public List<string> ActorIds { get; set; }
     }
 }
