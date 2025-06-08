@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MovieStoreTISAI.DL.Kafka.KafkaCache
+﻿namespace MovieStoreTISAI.DL.Kafka.KafkaCache
 {
     public interface IKafkaCache<TKey, TValue>
        where TKey : notnull

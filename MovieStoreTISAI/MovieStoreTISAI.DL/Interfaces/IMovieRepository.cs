@@ -1,4 +1,4 @@
-﻿using MovieStoreB.DL.Cache;
+﻿using MovieStoreTISAI.DL.Cache;
 using MovieStoreTISAI.Models.DTO;
 namespace MovieStoreTISAI.DL.Interfaces
 {
@@ -6,9 +6,11 @@ namespace MovieStoreTISAI.DL.Interfaces
     {
         Task<List<Movie>> GetMovies();
 
-        void AddMovie(Movie movie);
+        Task AddMovie(Movie movie);
 
-        void DeleteMovie(string id);
+        Task DeleteMovie(string id);
+
+        //Task<Movie?> GetMoviesById(string id);
 
         Movie? GetMoviesById(string id);
     }

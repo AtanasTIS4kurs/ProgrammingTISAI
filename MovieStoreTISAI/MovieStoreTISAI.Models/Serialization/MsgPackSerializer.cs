@@ -2,7 +2,7 @@
 using Confluent.Kafka;
 using MessagePack;
 
-namespace MovieStoreB.Models.Serialization
+namespace MovieStoreTISAI.Models.Serialization
 {
     public class MsgPackSerializer<T> : ISerializer<T>
     {

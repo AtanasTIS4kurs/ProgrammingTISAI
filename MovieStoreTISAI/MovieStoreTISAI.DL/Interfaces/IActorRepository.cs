@@ -1,5 +1,6 @@
-﻿using MovieStoreB.DL.Cache;
+﻿using MovieStoreTISAI.DL.Cache;
 using MovieStoreTISAI.Models.DTO;
+
 namespace MovieStoreTISAI.DL.Interfaces
 {
     public interface IActorRepository : ICacheRepository<string, Actor>

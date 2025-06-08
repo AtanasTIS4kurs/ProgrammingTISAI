@@ -5,7 +5,7 @@ using MovieStoreTISAI.DL.Interfaces;
 using MovieStoreTISAI.Models.Configuration;
 using MovieStoreTISAI.Models.DTO;
 
-namespace MovieStoreB.DL.Repositories.MongoRepositories
+namespace MovieStoreTISAI.DL.Repositories.MongoDb
 {
     internal class MoviesMongoRepository : IMovieRepository
     {
@@ -29,16 +29,14 @@ namespace MovieStoreB.DL.Repositories.MongoRepositories
             _moviesCollection = database.GetCollection<Movie>($"{nameof(Movie)}s");
         }
 
-        public void AddMovie(Movie movie)
+        public async Task AddMovie(Movie movie)
         {
             movie.Id = Guid.NewGuid().ToString();
-
-            _moviesCollection.InsertOne(movie);
+            await _moviesCollection.InsertOneAsync(movie);
         }
-
-        public void DeleteMovie(string id)
+        public async Task DeleteMovie(string id)
         {
-            _moviesCollection.DeleteOne(m => m.Id == id);
+            await _moviesCollection.DeleteOneAsync(m => m.Id == id);
         }
 
         public async Task<List<Movie>> GetMovies()
@@ -48,6 +46,10 @@ namespace MovieStoreB.DL.Repositories.MongoRepositories
             return await result.ToListAsync();
         }
 
+        //public async Task<Movie?> GetMoviesById(string id)
+        //{
+        //    return await _moviesCollection.Find(m => m.Id == id).FirstOrDefaultAsync();
+        //}
         public Movie? GetMoviesById(string id)
         {
             return _moviesCollection.Find(m => m.Id == id).FirstOrDefault();

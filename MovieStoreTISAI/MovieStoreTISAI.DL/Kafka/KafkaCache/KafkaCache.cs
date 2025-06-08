@@ -1,11 +1,6 @@
 ﻿using Confluent.Kafka;
 using Microsoft.Extensions.Hosting;
-using MovieStoreB.Models.Serialization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MovieStoreTISAI.Models.Serialization;
 
 namespace MovieStoreTISAI.DL.Kafka.KafkaCache
 {
@@ -29,9 +24,16 @@ namespace MovieStoreTISAI.DL.Kafka.KafkaCache
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            Task.Run(() => ConsumeMessages(stoppingToken), stoppingToken);
+
+            return Task.CompletedTask;
+        }
+
+        private void ConsumeMessages(CancellationToken stoppingToken)
+        {
             using (var consumer = new ConsumerBuilder<TKey, TValue>(_config)
-               .SetValueDeserializer(new MessagePackDeserializer<TValue>())
-               .Build())
+              .SetValueDeserializer(new MessagePackDeserializer<TValue>())
+              .Build())
             {
                 consumer.Subscribe("movies_cache");
 
@@ -46,15 +48,10 @@ namespace MovieStoreTISAI.DL.Kafka.KafkaCache
 
                     if (consumeResult != null)
                     {
-                        // Handle the error
                         Console.WriteLine($"Error: {consumeResult.Message.Key}");
                     }
-
                 }
-
             }
-
-            return Task.CompletedTask;
         }
     }
 }

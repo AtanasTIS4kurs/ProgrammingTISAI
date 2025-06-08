@@ -1,5 +1,4 @@
-﻿using MovieStoreTISAI.BL.Interfaces;
-using MovieStoreTISAI.Models.Configuration;
+﻿using MovieStoreTISAI.Models.Configuration;
 
 namespace MovieStoreTISAI.ServiceExtensions
 {

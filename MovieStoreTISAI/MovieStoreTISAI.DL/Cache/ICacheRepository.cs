@@ -1,6 +1,6 @@
 ﻿using MovieStoreTISAI.Models.DTO;
 
-namespace MovieStoreB.DL.Cache
+namespace MovieStoreTISAI.DL.Cache
 {
     public interface ICacheRepository<TKey, TData> where TData : ICacheItem<TKey>
     {

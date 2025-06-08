@@ -1,6 +1,6 @@
 ﻿using Confluent.Kafka;
 using Microsoft.Extensions.Options;
-using MovieStoreB.Models.Serialization;
+using MovieStoreTISAI.Models.Serialization;
 using MovieStoreTISAI.Models.Configuration.CachePopulator;
 using MovieStoreTISAI.Models.DTO;
 
@@ -13,7 +13,7 @@ namespace MovieStoreTISAI.DL.Kafka
         private readonly IProducer<TKey, TData> _producer;
         private readonly IOptionsMonitor<TConfiguration> _kafkaConfig;
 
-        public KafkaProducer()
+        public KafkaProducer(IOptionsMonitor<TConfiguration> kafkaConfig)
         {
             _config = new ProducerConfig()
             {
@@ -28,6 +28,7 @@ namespace MovieStoreTISAI.DL.Kafka
             _producer = new ProducerBuilder<TKey, TData>(_config)
                 .SetValueSerializer(new MsgPackSerializer<TData>())
                 .Build();
+            _kafkaConfig = kafkaConfig;
         }
 
         public async Task Produce(TData message)
@@ -41,7 +42,6 @@ namespace MovieStoreTISAI.DL.Kafka
 
         public async Task ProduceAll(IEnumerable<TData> messages)
         {
-
             await ProduceBatches(messages);
         }
 
@@ -60,7 +60,6 @@ namespace MovieStoreTISAI.DL.Kafka
                     batch.Clear();
                 }
             }
-
             if (batch.Count > 0)
             {
                 await Task.WhenAll(batch);

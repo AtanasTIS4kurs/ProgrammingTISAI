@@ -1,16 +1,15 @@
-﻿using Microsoft.Extensions.Logging;
-using MovieStoreTISAI.BL.Interfaces;
+﻿using MovieStoreTISAI.BL.Interfaces;
 using MovieStoreTISAI.DL.Interfaces;
 using MovieStoreTISAI.Models.DTO;
 
 namespace MovieStoreTISAI.BL.Services
 {
-    internal class MovieService : IMovieService
+    internal class MoviesService : IMoviesService
     {
         private readonly IMovieRepository _movieRepository;
         private readonly IActorRepository _actorRepository;
 
-        public MovieService(IMovieRepository movieRepository, IActorRepository actorRepository)
+        public MoviesService(IMovieRepository movieRepository, IActorRepository actorRepository)
         {
             _movieRepository = movieRepository;
             _actorRepository = actorRepository;
@@ -37,7 +36,7 @@ namespace MovieStoreTISAI.BL.Services
 
         public void DeleteMovie(string id)
         {
-            if (!string.IsNullOrEmpty(id)) return;
+            if (string.IsNullOrEmpty(id)) return;
 
             _movieRepository.DeleteMovie(id);
         }

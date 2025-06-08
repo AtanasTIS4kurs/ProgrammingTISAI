@@ -9,7 +9,7 @@ namespace MovieStoreTISAI.BL
         public static IServiceCollection
             AddBusinessDependencies(this IServiceCollection services)
         {
-            services.AddSingleton<IMovieService, MovieService>();
+            services.AddSingleton<IMoviesService, MoviesService>();
 
             return services;
         }

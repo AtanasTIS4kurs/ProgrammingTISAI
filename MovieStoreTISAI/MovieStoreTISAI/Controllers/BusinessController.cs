@@ -7,12 +7,12 @@ namespace MovieStoreTISAI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class MoviesBlController : ControllerBase
+    public class BusinessController : ControllerBase
     {
         private readonly IMoviesService _movieService;
         private readonly ILogger<MoviesController> _logger;
 
-        public MoviesBlController(
+        public BusinessController(
             IMoviesService movieService,
             ILogger<MoviesController> logger)
         {
@@ -20,10 +20,6 @@ namespace MovieStoreTISAI.Controllers
             _logger = logger;
         }
 
-        [HttpPost("TestFluentValid")]
-        public async Task<IActionResult> TestFluentValid([FromBody] TestRequest movieRequest) { 
-            return Ok();
-        }
 
         [HttpGet("GetAll")]
         public async Task<IEnumerable<Movie>> GetAll()
@@ -38,13 +34,6 @@ namespace MovieStoreTISAI.Controllers
             }
             return await _movieService.GetMovies();
         }
-    }
-
-    public class TestRequest
-    {
-        public int Id { get; set; }
-
-        public string Title { get; set; }
     }
 }
 

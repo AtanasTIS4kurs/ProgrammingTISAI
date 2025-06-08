@@ -2,12 +2,11 @@ using Mapster;
 using FluentValidation;
 using MovieStoreTISAI.BL;
 using MovieStoreTISAI.DL;
-using MovieStoreTISAI.Models.Requests;
-using MovieStoreTISAI.Validator;
-using FluentValidation.AspNetCore;
-using MovieStoreTISAI.Models.Configuration;
 using MovieStoreTISAI.ServiceExtensions;
 using MovieStoreTISAI.Controllers;
+using MovieStoreTISAI.HealthChecks;
+using Serilog;
+using Serilog.Sinks.SystemConsole.Themes;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,21 +18,14 @@ var logger = new LoggerConfiguration()
 
 builder.Logging.AddSerilog(logger);
 
-// Add services to the container.
 builder.Services
     .AddConfiguration(builder.Configuration)
     .AddDataDependencies(builder.Configuration)
     .AddBusinessDependencies();
 
 builder.Services.AddMapster();
-
-builder.Services.AddValidatorsFromAssemblyContaining<TestRequest>();
-builder.Services.AddFluentValidationAutoValidation();
-
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
-
-//builder.Services.AddHealthChecks();
 
 builder.Services.AddHealthChecks()
     .AddCheck<SampleHealthCheck>("Sample");
@@ -47,8 +39,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapHealthChecks("/healthz");
-
-// Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
 

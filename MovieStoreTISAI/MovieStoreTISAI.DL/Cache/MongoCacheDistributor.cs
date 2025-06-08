@@ -4,7 +4,7 @@ using MovieStoreTISAI.DL.Kafka;
 using MovieStoreTISAI.Models.Configuration.CachePopulator;
 using MovieStoreTISAI.Models.DTO;
 
-namespace MovieStoreB.DL.Cache
+namespace MovieStoreTISAI.DL.Cache
 {
     public class MongoCachePopulator<TData, TConfigurationType, TKey> : BackgroundService
         where TKey : notnull
