@@ -10,8 +10,6 @@ namespace MovieStoreTISAI.DL.Interfaces
 
         Task DeleteMovie(string id);
 
-        //Task<Movie?> GetMoviesById(string id);
-
         Movie? GetMoviesById(string id);
     }
 }
